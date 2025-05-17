@@ -1,0 +1,1 @@
+﻿(netsh wlan show profiles) | Select-String ":(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); ($details=netsh wlan show profile name="$name" key=clear) -and ($pass=($details | Select-String "Key Content\W+:(.+)$").Matches.Groups[1].Value.Trim() -or "N/A"); [PSCustomObject]@{PROFILE_NAME=$name;PASSWORD=$pass}} | Format-Table -AutoSize
